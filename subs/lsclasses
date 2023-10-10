@@ -1,0 +1,85 @@
+Sub lsclasses(Optional classname As String = "",...)' List Loaded classes - from classes object
+'' lsclasses  List all the classes in the current environment
+'' if classname is set to filter=used  then only list classes refrenced by application
+'' Else all loaded classes will be displayed.
+'' Red Line are internal objects, Green are Gambas Classes 
+dim bUsed as boolean = false
+dim s as  string
+dim css as class
+dim sClass as new string[]
+dim scClass as new collection(gb.ignorecase)
+Dim MaxLength as integer = 0
+Dim cmodule as class
+
+if classname == "filter=used" then
+  bUsed = true
+  classname = ""
+endif
+
+for each css in classes
+    sClass.add(css.name)
+    scclass.add(css,css.name)
+    if css.name.len > MaxLength then
+      MaxLength = css.name.len
+    endif
+next
+
+if classname = "" then
+    print "Listing of";;scclass.count;;"classes, Sorted Count ";
+    print sClass.count
+    sClass.sort(gb.ignorecase)
+
+    for each s in sClass
+       if bUsed and if scclass[s].count = 0 then continue
+       try cmodule = classes[s]
+       if error then
+          print "\e[31m";
+       else
+          print "\e[32m"
+       endif
+
+       try print left(s&space(MaxLength+1),MaxLength+1);; "Hidden=";left(str(scclass[s].hidden),1) ;;"Ref=";format(scclass[s].count,"##0");" Symbols ";iif(scclass[s].symbols.count = 0,"None","[");
+       if error then
+          print left(s&Space(MaxLength+1),MaxLength+1);;error.text
+          continue
+       endif
+
+       dim jj as integer = 0
+       dim m as string
+       Dim sSym as string[] = scclass[s].symbols
+       sSym.sort()
+       for jj = 0 to ssym.max
+          m = sSym[jj]
+          if jj > 0 and jj mod 10 = 0 then
+            print "\n"; space(maxlength+19);
+          endif
+          print m;iif(jj< ssym.max, ",","");
+          flush
+       next
+       print "]"
+    next
+print "\e[0m"
+
+else
+    css = scclass[classname]
+    print "Process Class ";classname
+    if css = null then
+       print "Class ";classname; " not found"
+    else
+       Print Left(css.name&space(MaxLength+1),MaxLength+1 ) ;; "Ref="; Format(css.count, "##0")
+       print "Public sysmbols for";; classname
+       dim table as string[] = css.symbols
+       table = table.sort()
+       for each m as string in table
+          print classname&"."&m
+       next
+    endif
+
+endif
+
+Catch
+  flush
+  print  error.text,error.where
+  flush
+  print
+End

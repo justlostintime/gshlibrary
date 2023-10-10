@@ -1,0 +1,42 @@
+public sub runvar(varname as string,...) as variant ' execute variable content as script
+'' Execute the content of a variable as an
+'' independent script
+dim mOutput as string
+dim errorresult as new string[]
+
+dim cmd as string[] = ["/usr/bin/gsh","-f"]
+with sharedmem
+if .exist(varname) then
+    cmd.add(varname)
+    for each s as variant in param
+     cmd.add(s)
+    next
+    if .["DoTrace"] then
+       print "(RunVar "&now&") Exec [";
+       for each ss as string in cmd
+         print quote(ss);;
+       next
+       print "]"  
+    endif
+    
+    try exec cmd to mOutput
+
+    if error then
+        errorResult.add("Error:"&Error.text)
+        return ErrorResult
+    else if .["DoTrace"] then
+      print "(RunVar "&now&") Output";;quote(mOutput)
+    endif
+    dim sOutput as string[] = split(mOutput,"\n","\"\"",true)
+    return iif(sOutput.count = 1,sOutput[0],sOutput)
+else
+    ErrorResult.add("Variable Not found : "&varname)
+    return
+endif
+
+end with
+
+catch
+ error "RunVar error:";;quote(varname);;":";;error.text;;error.where
+
+end

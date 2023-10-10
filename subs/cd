@@ -1,0 +1,88 @@
+Sub cd(Optional CDToDir As String = "~") As Boolean ' change directory
+''cd   directorypath - change the current working directory
+''          uses the env["PWD"] variable
+''          updates the global $env,$pwd variables
+''          Function cd("directory")
+''          Command  cd "directory"
+''          returns true if found, false otherwise
+''          $result contains the error text or "OK"
+with sharedmem
+dim a as new glob_t
+Dim sPath As String
+Dim sPathSplit As String[]
+dim pwds as new string[]
+Dim newdir as string
+Dim OldPWD as string = env["PWD"]
+
+if CDToDir = "-" then
+    newdir = env["OLDPWD"]  'check if we swap for the old PWD
+    if isnull(newdir) then
+      error "OLDPWD not set"
+      return false
+    endif
+else
+  newdir = CDToDir
+endif
+
+if newdir = OldPWD then return true
+
+dim aglob as string[] = fileexpand(newdir,true, false, false)
+
+if aglob.count > 1 then
+  error "cd: ambiguious directory found";;aglob.count;;"matches\n";aglob.join("\n")
+  return
+else if aglob.count = 1 then
+ sPath = aglob[0]
+else
+ error "cd: Directory not found";;newdir
+ return false
+endif
+
+sPathSplit = split(sPath,"/","",true)
+
+if file.isrelative(sPath) then pwds.insert(split(env["PWD"],"/","",true))
+for each Sdir as string in sPathSplit
+
+    Select Case SDir
+            Case "."
+                if pwds.count = 0 then  pwds.insert(split(env["PWD"],"/","",true))
+            Case ".."
+                if pwds.count > 0 then pwds.remove(pwds.max)
+            default
+                pwds.add(sdir)
+    End Select
+
+    dim truth as boolean = exist("/"&pwds.join("/"))
+
+    if not truth then
+        Print #file.err, "Directory Not Found :["; iif(pwds[0][0] <> "~","/",""); pwds.join("/") ;"]"
+        .["result"] = "Error : Directory Not Found :[" & iif(pwds[0][0] <> "~","/","")&pwds.join("/") &"]"
+        return false
+    endif
+
+next
+
+dim finaldestination as string = "/" &/ pwds.join("/")
+
+if pwds.count > 0 then
+    if not isdir(finaldestination) then
+      error "CD :";;finaldestination;;"is not a directory"
+      .["result"] = "Not a directory"
+      return false
+    endif
+    env["PWD"] = finaldestination
+    env["OLDPWD"] = OldPWD
+    sharedmem["pwd"] = "/"&/ pwds.join("/")
+else
+    env["PWD"] = "/"
+    env["OLDPWD"] = OldPWD
+    sharedmem["pwd"] = "/"
+endif
+    Extern chdir(Dest As String) As Integer In "libc:6"
+    try chdir(finaldestination)
+end with
+return true
+catch
+  error "cd error:";;error.text
+  return false
+end

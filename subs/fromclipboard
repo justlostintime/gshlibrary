@@ -1,0 +1,12 @@
+Sub fromclipboard(optional PrintContent as boolean = false) as variant '' prints the clipboard to stdout
+'' Copies the clipboard to standard out
+'' example to copy the information to a file use the
+'' following command:
+'' !fromclipboard > mynewfile
+'' alias is fcb="fromclipboard"
+use "gb.gui","gb.image"
+class.load("clipboard")
+dim value as variant = clipboard.paste()
+if PrintIt then print value
+return value
+End

@@ -1,0 +1,68 @@
+Sub fileexpand(path As String, Optional dironly As Boolean = False, globstar as boolean = sharedmem["globstar"],  Recurse as boolean = false ) As String[] ' list of file
+'' fileexpand(Path as string, optional DirOnly as boolean) as string()
+''   Returns a list of files as expanded by the shells
+Extern glob(Pattern As String, flags As Integer, ErrorCallback As Pointer, glob_def As Glob_t) As Integer In "libc:6"
+Extern globfree(glob_def As Glob_t) In "libc:6"
+
+Dim GLOB_ERR As Integer = &h0001              ' Return On Read errors. * /
+Dim GLOB_MARK As Integer = &h0002              ' Append a slash To Each name. * /
+Dim GLOB_NOSORT As Integer = &h0004              ' Don 't sort the names.  */
+Dim GLOB_DOOFFS As Integer = &h0008             ' Insert PGLOB - > gl_offs NULLs. * /
+Dim GLOB_NOCHECK As Integer = &h0010             ' If nothing matches, Return the pattern. * /
+Dim GLOB_APPEND As Integer = &h0020              ' Append To results Of a previous call. * /
+Dim GLOB_NOESCAPE As Integer = &h0040              ' Backslashes don 't quote metacharacters.  */
+Dim GLOB_PERIOD As Integer = &h0080              ' Leading `.' can be matched by metachars.  */
+Dim GLOB_MAGCHAR As Integer = &h0100             ' Set In gl_flags If any metachars seen. * /
+Dim GLOB_ALTDIRFUNC As Integer = &h0200              ' Use gl_opendir et al functions. * /
+Dim GLOB_BRACE As Integer = &h0400              ' Expand "{a,b}" To "a" "b". * /
+Dim GLOB_NOMAGIC As Integer = &h0800              ' If no magic chars, Return the pattern. * /
+Dim GLOB_TILDE As Integer = &h1000              ' Expand ~user and ~ to home directories. */
+Dim GLOB_ONLYDIR As Integer = &h2000           ' Match only directories. * /
+Dim GLOB_TILDE_CHECK As Integer = &h4000
+
+
+Dim globerrors As String[] = ["System Call Error","No error", "Out Of Memory", "Read Error", "No Matches", "Not Implemented"]
+Dim Paths As New String[]
+Dim sret As New Glob_t
+Dim ReturnSet As Pointer
+Dim CallResult As Integer
+Dim flags As Integer = (GLOB_TILDE Or GLOB_MARK Or GLOB_NOCHECK Or GLOB_BRACE)
+
+  if Recurse = false and if globstar = true then recurse = (path like "*\\*\\**")
+  
+  if dironly = true or if  path[path.len-1] = "/" Then
+     dironly = true
+     flags = (flags Or GLOB_ONLYDIR)
+  Endif
+
+  CallResult = glob(path, flags, Null, sret)
+  
+  If Callresult <> 0 Then
+      Error.Raise("File Expansion Error :" & globerrors[CallResult+1])
+  Endif
+  
+  ReturnSet = sret.gl_pathv
+  
+  For i As Integer = 0 To sret.gl_pathc - 1
+    Dim rpath As String = String@(Pointer@(ReturnSet + (SizeOf(gb.pointer) * i)))
+    if globstar then 
+      If rpath[rpath.len - 1] = "*" Then
+        Continue
+      Endif
+      Paths.Add(rpath)
+      If recurse and rpath[rpath.len - 1] = "/" Then
+        paths.Insert(fileexpand(rpath & "*", dironly, globstar, recurse))
+      Endif
+    Else
+         Paths.Add(rpath)
+    endif
+  Next
+  
+  globfree(sret)
+  
+  Return paths 
+  
+Catch
+  Error.Propagate()
+  
+End ' Gambas module file

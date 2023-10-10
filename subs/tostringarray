@@ -1,0 +1,87 @@
+Sub ToStringArray(sResult as string[],...) 'Change anything to string[]
+''ToStringArray    Creat a string array the content of arrays or collections
+''          or objects/classes with the special _print function
+''          returns string[] if found, empty array otherwise
+''          $result contains the error text or "OK"
+
+Dim vParms As Variant[]
+
+With sharedmem
+
+vParms = param.all
+For Each v As Variant In vParms
+    Select Case TypeOf(v)
+        Case gb.object
+            dim ClassName as string = object.class(v).name
+            Select Case ClassName
+
+                Case "Variant[]","Object[]","Collection[]"
+                    for each vs as Variant in v
+                        ToStringArray(sResult,vs)
+                    next
+
+                case "String[]","Integer[]","Float[]","Long[]","Short[]","Single[]","Pointer[]","Byte[]","Date[]"
+                       sResult.insert(v)
+                       
+                case "Date[]"
+                    for each ds as date in v
+                        sResult.add(str(ds))
+                    next
+
+                Case "Boolean[]"
+                     for each c as boolean in v
+                        sResult.add(iif(c=true,"True","False"))
+                     next
+
+                Case "Collection"
+                    For Each vs In v
+                        sResult.add(quote(v.Key)&":")
+                        sResult.insert(ToStringArray(sResult, v))
+                    next
+
+                Case "Class"
+                    sresult.add("Class:"& v.name)
+                    sresult.add("Refs:"& v.count)
+                    for each s as string in v.symbols
+                        sResult.add("Symbol:"&s)
+                    next
+                    sResult.add("End Class")
+                    
+                case "String"
+                    sResult.add(v)
+
+                Default
+                    if right(ClassName,2) = "[]" then
+                       for each vs in v
+                          ToStringArray(sResult,vs)
+                       next
+                    else If object.class(v).exist("_export") Then
+                        sResult.add(v._export())
+                    Else
+                        sResult.add("Object:"&v)
+                    Endif
+            End Select
+
+        case gb.class
+            sresult.add("Class:"& v.name)
+            sresult.add("Refs:"& v.count)
+            for each s as string in v.symbols
+                sResult.add("Symbol:"&s)
+            next
+            sResult.add("End Class")
+
+        case gb.boolean
+            sResult.add(iif(v=false,"False","True"))
+
+        Default
+            try sResult.add(v)
+            if error then 
+              sResult.add(quote("\"{\"&error.text&\"}\""))
+            endif
+
+        End Select
+Next
+
+End With
+
+End

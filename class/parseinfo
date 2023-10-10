@@ -1,0 +1,50 @@
+class ParseInfo
+
+Public seperators As String[]
+Public operators As String[]
+Public SpecialSymbols As String[]
+Public quotes As String[]
+Public braces As String[]
+Public comments As String[]
+Public endofline As String[]
+Public ignoreChar As String[]
+Public KeyWords As String[]
+Public DoFileExpand As Boolean
+Public DoSpecial As Boolean
+Public KeepQuote As Boolean
+
+Public syms As New String[]
+Public types As New Integer[]
+
+Public Sub _new(optional SetDefaults As Boolean = true, ops As String[] = [":"], qs As String[] = ["\"", "\""], sep As String[] = [" ", ","], Special As Boolean = False, LeaveQuotes As Boolean = True)
+  
+If SetDefaults Then
+ seperators = [" ","\n"]
+ operators = [":",","]
+ SpecialSymbols = ["{", "}"]
+ quotes = ["\"", "\"", "`", "`"]
+ braces = ["{", "}","(",")"]
+ comments = ["'"]
+ endofline = ["\n"]
+ IgnoreChar = New String[]
+ keywords = New String[]
+ DoFileExpand = False
+ KeepQuote = True
+ DoSpecial = false
+Else
+ seperators = sep
+ operators = ops
+ SpecialSymbols = New String[]
+ quotes = qs
+ braces = New String[]
+ comments = New String[]
+ endofline = New String[]
+ IgnoreChar = New String[]
+ keywords = New String[]
+ DoFileExpand = False
+ KeepQuote = LeaveQuotes
+ DoSpecial = special
+Endif
+end
+
+End class

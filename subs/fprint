@@ -1,0 +1,159 @@
+Sub fprint(optional filename As Variant=File.out, ...) As Boolean ' print anything to a file
+''fPrint    print to a file the content of arrays or collections
+''          or objects/classes with the special _print function
+''          function fprint(filename,...) print the valiables
+''          command  lprint filename .....  prints the variables
+''          returns true if found, false otherwise
+''          $result contains the error text or "OK"
+Dim vParms As Variant[] = param.all
+Dim mFile as variant
+Dim DoClose as boolean = false
+With sharedmem
+
+if typeof(filename) = gb.string and param.count > 0 then
+'    if file.dir(filename) = "" then
+'        filename = user.home &/ "vars"&/ filename
+'    endif
+    if file.dir(filename)="" then filename = sharedmem["$pwd"] &/ filename
+    try mFile = open filename for write create
+    if error then
+        .["result"] = error.text
+        print #file.err, "fprint :";error.text
+        return false
+    endif
+    DoClose = true
+else if typeof(filename) = gb.string and param.count = 0 then
+    mFile = FILE.out
+    vParms.add(filename,0)
+else
+    mFile = filename
+endif
+
+For Each v As Variant In vParms
+    Select Case TypeOf(v)
+        Case gb.object
+            Select Case object.class(v).name
+                Case "String[]"
+                    For Each svs as variant In v
+                        fprint(mfile,svs)
+                    Next
+
+                Case "Date[]"
+                     for each da as variant in v
+                        fprint(mfile,da)
+                     next
+
+                Case "Byte[]"
+                    if v.dim = 1 then
+                        sendchunks(mfile,v.tostring())
+                    else
+                        fprint(mfile,v)
+                    endif
+
+                Case "Variant[]", "Object[]", "Collection[]"
+                    for each vs as Variant in v
+                        fprint(mfile,vs)
+                    next
+
+                case "Integer[]","Long[]","Short[]","Float[]","Boolean[]","Null[]","Single[]","Pointer[]"
+                    if v.dim = 1 then
+                      for each iv as variant in v
+                        print #mFile, iv;;
+                      next
+                    else
+                      for each iv as variant in v
+                        fprint(mFile, iv)
+                      next
+                    endif
+                    print #mfile
+
+                Case "Collection"
+                    For Each vs In v
+                        'Print #mFile, v.key; "="; vs
+                         print #mFile, quote(v.Key);;":";;
+                         flush #mFile
+                        fprint(mfile, vs)
+                    next
+
+                Case "Class"
+                    print #mFile, "Class :"; v.name;; "Refs=";v.count
+                    print "  Symbols :";
+                    for each s as string in v.symbols
+                        print  #mFile,s;;
+                    next
+                    print #mFile
+
+                Case "String"
+                    sendchunks(mFile, v)
+                    print #mfile
+                    flush #mfile
+
+                Default
+                    if right(object.class(v).name,2) = "[]" then
+                        for each ivi as variant in v
+                          fprint (mFile,ivi)
+                        next
+                    else
+                    	If object.class(v).exist("_print") Then
+                        	v._print(mFile)
+                    	Else
+                        	if object.class(v).exist("_write") Then
+                            		v._write(mfile)
+                        	else
+                            		Print  #mFile,v;;
+                        	endif
+                    	Endif
+                    endif
+            End Select
+
+        case gb.string
+            sendchunks(mfile, v)
+            print #mfile
+            flush #mfile
+
+        case gb.class
+            print  #mFile,"Class :"; v.name;; "Refs=";v.count
+            print  #mFile,"  Symbols :";;
+            for each rs as string in v.symbols
+                print  #mFile,rs;;
+            next
+            print #mFile
+
+        case gb.date
+            Print #mFile, str(da)  ' cause date to display in local time
+            flush #mfile
+
+        Default
+            Print  #mFile,v
+            flush #mfile
+
+        End Select
+Next
+
+flush #mfile
+
+.["result"] = "OK"
+End With
+if DoClose then close mfile
+Return True
+End
+
+' This is only required because pipes will block and gambas does not release
+' so no more events are processed. This happens if we are sending data to a task and getting
+' responses from that task
+
+Sub sendchunks(sink As Variant, buffer As String)
+ if buffer.len < 2048 then
+  write #sink, buffer, buffer.len
+  return
+ endif
+
+' this is a lot slower but since pipes block, we need to send small chunks at a time
+ For i As Integer = 0 To buffer.len Step 256
+
+   Write #sink, Mid(buffer, i + 1, 256), 256
+   Flush #sink
+   Wait
+ Next
+
+End
