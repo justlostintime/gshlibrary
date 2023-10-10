@@ -1,13 +1,14 @@
 .:
-class
+class/
 content
-doc
-examples
-games
+doc/
+examples/
+games/
 LICENSE
+make_content
 README.md
-struct
-subs
+struct/
+subs/
 
 ./class:
 gshhighlight
