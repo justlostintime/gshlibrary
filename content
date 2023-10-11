@@ -1,40 +1,40 @@
-.:,0,0
+.:,10/11/2023 13:45:18,DirectoryTitle
 class/,10/10/2023 16:05:46,directory
-content,10/11/2023 14:56:09,8757ef78c84eea26f786b96d12a10b4d
+content,10/11/2023 20:43:15,1d8973cc09e2b88820a031de849c4c95
 doc/,10/10/2023 16:16:11,directory
 examples/,10/10/2023 16:18:09,directory
 games/,10/11/2023 14:55:03,directory
-gsh_makecontent,10/11/2023 19:51:37,f931313e3a930b4c9fbdc05b456e13c3
+gsh_makecontent,10/11/2023 20:45:09,d6f451aa2d8a17fe1aef3f4d86b6dcbc
 LICENSE,10/10/2023 15:37:13,1ebbd3e34237af26da5dc08a4e440464
 README.md,10/10/2023 16:50:07,e1e8a2350de8918fd2bb962c06d1d9c4
 struct/,10/10/2023 16:05:01,directory
 subs/,10/10/2023 16:19:50,directory
-./class:,0,0
+./class:,10/11/2023 13:45:18,DirectoryTitle
 gshhighlight,11/02/2021 20:32:03,2c4ffe1db0ab507cee1602311619aad7
 monitorwebagent,12/31/2020 04:58:03,0186435b0b7fe130aa65b4ecfeccde8a
 parseinfo,01/17/2021 21:39:04,55e9f9c59cb02bcb235daa8a107aabd5
 readme,11/03/2020 19:40:21,21eb7b392fa6e45752a18ccd919f6106
-./doc:,0,0
+./doc:,10/11/2023 13:45:18,DirectoryTitle
 GambasShell-gsh-1.3.pdf,10/27/2021 17:55:52,65a3b8bf616d7652970f7a668506696a
 GambasShell-gsh-1.4.pdf,03/31/2023 04:52:42,78d91358925cc1b03a3a47a3e467fc48
 GambasShell-gsh-1.5.pdf,09/10/2023 16:48:33,50685ed0d501954d3e31a45ebfca80b9
 help.info,09/10/2023 16:44:43,78426df6992e12f1f6c2d45ba08078c3
-./examples:,0,0
+./examples:,10/11/2023 13:45:18,DirectoryTitle
 clear,09/09/2023 23:52:48,aa25e050c4ea5e54ccd16a675f7579f4
 README.md,10/10/2023 16:18:09,993e9d804720fd132f784e28009b548c
 SampleFilter,11/03/2020 19:40:21,ae8f180364a3d0bc3e700487dcc8b1ba
 SampleInjector,11/03/2020 19:40:21,847aa5ae462f50f0db105c67f7ac0c56
 SampleReceiver,11/03/2020 19:40:21,6035f519fe467302252b5eb789c70589
-./games:,0,0
+./games:,10/11/2023 13:45:18,DirectoryTitle
 Action/,10/11/2023 14:54:58,directory
 Puzzles/,10/11/2023 14:55:50,directory
-./games/Action:,0,0
-./games/Puzzles:,0,0
+./games/Action:,10/11/2023 13:45:18,DirectoryTitle
+./games/Puzzles:,10/11/2023 13:45:18,DirectoryTitle
 test1,10/11/2023 14:55:46,d41d8cd98f00b204e9800998ecf8427e
-./struct:,0,0
+./struct:,10/11/2023 13:45:18,DirectoryTitle
 glob_t,10/28/2021 00:25:47,c4d48916a7779266cc2c8c15d28424e1
 readme,03/31/2023 04:55:47,03f871bfdff3f68b2ee239bdf9bcddbe
-./subs:,0,0
+./subs:,10/11/2023 13:45:18,DirectoryTitle
 alert,12/28/2021 21:41:45,393375cccfd2e999650c83c53dd67c20
 browse,10/21/2021 20:04:47,8d6b20168aa638427b5fa2e3d3153769
 cd,09/09/2023 23:52:32,9a5b17ab0797f4b18b96cd6b1452d22f

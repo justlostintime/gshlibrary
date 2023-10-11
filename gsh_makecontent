@@ -52,7 +52,7 @@ Public Sub Main()
         Inc counter
 
         If filename[0] = "." Then
-            outText = filename & ",0,0"
+            outText = filename & ","&str(now)&",DirectoryTitle"
             OutContent.add(outText)
             CurrentDirectory = BaseDir &/ Mid(filename, 2, filename.len - 2)
             Continue
