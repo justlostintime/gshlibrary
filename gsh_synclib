@@ -1,0 +1,50 @@
+#!/usr/bin/env gbs3
+
+Public Sub Main()
+   Use "gb.util"
+
+    Dim source As String = env["gshproject"]
+    Dim dest As String = env["gshlibrary"]
+    Dim FileText As String
+    Dim directories As String[] = ["subs", "class", "struct", "examples", "doc", "editors", "profiles"]
+
+    Print "GSH_synclib : ";; Quote(source);; "to";; Quote(dest)
+
+    If source = "" Or If dest = "" Then
+        Print "GSH_synclib : gshproject or gshlibrary directory is not defined"
+        Quit 2
+    Endif
+
+    If Not Exist(source) Then
+        Print "GSH_synclib : Projects directory not found"
+        Quit 3
+    Endif
+
+    If Not Exist(dest) Then
+        Print "GSH_synclib : Library  directory not found"
+        Quit 3
+    Endif
+
+
+    For Each s As String In directories
+        Dim CurrentDir As String = source &/ ".hidden" &/ s
+        Dim DestDir As String = Dest &/ s
+        For Each sd As String In Dir(CurrentDir, "*[^~]", gb.file)
+            Print "Moving "; CurrentDir &/ sd;; "To";; DestDir &/ sd
+            Try filetext = file.load(CurrentDir &/ sd)
+            If Error Then
+                Print "GSH_synclib : error reading file :";; CurrentDir &/ sd;; "Error :";; Error.text
+            Endif
+            shell.mkdir(DestDir)
+            Try file.save(Destdir &/ sd, filetext)
+            If Error Then
+                Print "GSH_synclib : error writing file :";; DestDir &/ sd;; "Error :";; Error.text
+            Endif
+        Next
+    Next
+
+    Quit 0
+Catch
+    Error "Script Error >";; error.text & "\n" & error.where
+
+End

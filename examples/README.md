@@ -1,5 +1,5 @@
-# gshlibrary
-Library of Gambas Shell Scripts(gsh) useful functions, classes and examples
+# Examples of plugin scripts for gsh
 
-The examples provided here are useful when following the text in the 
-gsh documentation
+These scripts are example of how to
+create integrated plugins or scripts
+for use in the gsh environment
