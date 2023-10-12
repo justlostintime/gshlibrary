@@ -1,5 +1,4 @@
 #!/usr/bin/env gbs3
-' Gambas Script File Created 10/11/2023 12:45:03
 '
 ' Gsh Library content builder
 ' This builds the content file for online gsh script repositories
@@ -23,7 +22,6 @@
 '
 
 Public Sub Main()
-
 
     Dim execOutput As String
     Dim BaseDir As String = Application.dir
