@@ -1,0 +1,746 @@
+' Gambas Shell script
+'noalias
+'nopreprocess
+
+Public Sub startrek()
+
+    Dim a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z As Integer
+    Dim startmem As New Integer[70000]
+
+l10: ' rem DO
+    Print "Do you want a difficult game (y or n)?";
+    Flush
+    GoSub l6770
+    Y = 2999
+    If A = 121 Then Y = 999
+    Print "Stardate 3200: your mission is",
+    Flush
+l70:    ' rem DO
+    K = 0
+    B = 0
+    D = 30
+    I = 0
+l120: ' rem loop
+    If I > 63 Then Goto l220
+    J = IIf(Rnd(99) + 1 >= 5, -1, 0) + 1
+    B = B + J
+    M = Rnd(Y) + 1
+    ' rem TRUE = -1 in this dialect
+    M = (IIf(M >= 209, -1, 0) + 1) + (IIf(M >= 99, -1, 0) + 1) + (IIf(M >= 49, -1, 0) + 1) + (IIf(M >= 24, -1, 0) + 1) + (IIf(M >= 9, -1, 0) + 1) + (IIf(M >= 2, -1, 0) + 1)
+    K = K + M
+    startmem[I] = -100 * M - 10 * J - Rnd(8) - 1
+    I = I + 1
+    Goto l120
+l220: ' rem "220 LOOP"
+    If (B < 2) + (K < 4) Then Goto l70
+    ' rem  "240 LOOP"
+    Print "to destroy", K, "Klingons in 30 stardates."
+    Print "There are", B, "Starbases."
+    GoSub l1100
+    C = 0
+    H = K
+    GoSub l6270
+    GoSub l6340
+    GoSub l870
+    GoSub l3230
+l340: ' rem "340 DO"
+l350: ' rem "350 DO"
+    Print "r=Report       s=SR. sensor   l=LR. sensor"
+    Print "g=Galaxy map   p=Phaser       t=Torpedo"
+    Print "w=Warp engine  ***please use one of these commands***"
+    Print "Captain?";
+    Flush
+    GoSub l6770
+    If A = 103 Then GoSub l1370
+    If A = 108 Then GoSub l1820
+    If A = 115 Then GoSub l2100
+    If A = 112 Then GoSub l2510
+    If A = 114 Then GoSub l3870
+    If A = 119 Then GoSub l4220
+    If A = 116 Then GoSub l5130
+    If (A = 113) Or (A = 27) Then A = -1
+    If A > 0 Then Goto l350
+    ' rem "500 LOOP"
+    If A = -1 Then Goto l770
+    GoSub l870
+    GoSub l3230
+    If K Then Goto l670
+    Print "Mission accomplished."
+    If D < 3 Then Print "Boy, you barely made it."
+    If D > 5 Then Print "Good work..."
+    If D > 9 Then Print "Fantastic!"
+    If D > 13 Then Print "Unbelievable!"
+    D = 30 - D
+    I = (H * 100) \ (D * 10)
+    Print H, "Klingons in", D, "stardates. (", I, ")"
+    J = 100 * (C = 0) - 5 * C
+    Print C, "casualties incurred. (", J, ")"
+    Print "Your score:", I + J
+    Goto l770
+l670: ' rem "670 END IF"
+    If D >= 0 Then Goto l710
+    Print "It's too late, the federation has been conquered."
+    Goto l770
+l710: ' rem END IF
+    If E >= 0 Then Goto l750
+    Print "Enterprise destroyed"
+    If H - K > 9 Then Print "But you were a good man"
+l750: ' rem END IF
+    Goto l340
+l770: ' rem LOOP
+    Y = 987
+    Print
+    Print "Another game (y or n)?";
+    Flush
+    GoSub l6770
+    If A = 121 Then Goto l10
+    ' rem LOOP
+    Print "Good bye."
+
+    Quit
+    ' rem
+
+l870: ' rem SUBROUTINE 145
+    I = X - (IIf(X <= 1, -1, 0) + 1)
+l890:    ' rem DO
+    If I > X + (IIf(X >= 8, -1, 0) + 1) Then Goto l1010
+    J = Y - (IIf(Y > 1, -1, 0) + 1)
+l920:    ' rem DO
+    If J > Y + (IIf(Y >= 8, -1, 0) + 1) Then Goto l970
+    If startmem[8 * I + J + 62] = 2 Then Goto l970
+    J = J + 1
+    Goto l920
+l970: ' rem LOOP
+    If startmem[8 * I + J + 62] = 2 Then Goto l1010
+    I = I + 1
+    Goto l890
+l1010: ' rem LOOP
+    If startmem[8 * I + J + 62] = 2 Then Goto l1050
+    O = 0
+    Return
+l1050: ' rem END IF
+    If O = 0 Then Print "Sulu: 'Captain, we are docked at Starbase.'"
+    GoSub l1100
+    Return
+    ' rem
+l1100: ' rem SUBROUTINE 160
+    E = 4000
+    F = 10
+    O = 1
+    I = 64
+l1150: ' rem DO
+    If I > 70 Then Goto l1200
+    startmem[I] = 0
+    I = I + 1
+    Goto l1150
+l1200: ' rem LOOP
+    Return
+    ' rem
+l1230: ' rem SUBROUTINE 165
+l1240: ' rem DO
+    S = Rnd(8) + 1
+    T = Rnd(8) + 1
+    A = 8 * S + T + 62
+    If startmem[A] Then Goto l1240
+    ' rem LOOp
+    startmem[A] = I
+    Return
+    ' rem
+l1330: ' rem SUBROUTINE 175
+    Print "Enterprise in q-", U; ","; V, " s-", X; ","; Y
+    Return
+    ' rem
+l1370: ' rem SUBROUTINE map
+    A = 1
+    GoSub l1330
+    J = 2
+    GoSub l3740
+    If I Then Return
+    Print "of galaxy map";
+    Flush
+    I = 0
+l1450: ' rem DO
+    If I > 7 Then Goto l1600
+    Print
+    Print I + 1; ":",
+    Flush
+    J = 0
+l1500: ' rem DO
+    If J > 7 Then Goto l1570
+    M = startmem[8 * I + J]
+    M = (IIf(M <= 0, -1, 0) + 1) * M
+    Print M \ 100; M \ 10 - (M \ 100) * 10; M - (M \ 10) * 10,
+        Flush
+    J = J + 1
+    Goto l1500
+l1570: ' rem LOOP
+    I = I + 1
+    Goto l1450
+l1600: ' rem LOOP
+    Print
+    Print "  ",
+    Flush
+    I = 0
+l1640:    ' rem DO
+    If I > 7 Then Goto l1690
+    Print "...",
+    Flush
+    I = I + 1
+    Goto l1640
+l1690: ' rem LOOP
+    Print
+    Print "   ",
+    Flush
+    I = 1
+l1730: ' rem DO
+    If I > 8 Then Goto l1780
+    Print I; " ",
+    Flush
+    I = I + 1
+    Goto l1730
+l1780: ' rem LOOP
+    Print
+    Return
+    ' rem
+l1820: ' rem SUBROUTINE lr
+    GoSub l1330
+    J = 3
+    GoSub l3740
+    If I Then Return
+    Print
+    I = U - 1
+l1890: ' rem DO
+    If I > U + 1 Then Goto l2060
+    J = V - 1
+l1920: ' rem DO
+    If J > V + 1 Then Goto l2020
+    M = 8 * I + J - 9
+    A = 0
+    If IIf(I > 0, -1, 0) * IIf(I < 9, -1, 0) * IIf(J > 0, -1, 0) * IIf(J < 9, -1, 0) Then A = startmem[M]
+    If A < 0 Then A = -A
+    startmem[M] = A
+    Print A \ 100; A \ 10 - (A \ 100) * 10; A - (A \ 10) * 10,
+        Flush
+    J = J + 1
+    Goto l1920
+l2020: ' rem LOOP
+    Print
+    I = I + 1
+    Goto l1890
+l2060: ' rem LOOP
+    A = 1
+    Return
+    ' rem
+l2100: ' rem SUBROUTINE sr
+    A = 1
+    GoSub l1330
+    J = 1
+    GoSub l3740
+    If I Then Return
+    M = 8 * U + V - 9
+    If startmem[M] < 0 Then startmem[M] = -startmem[M]
+    Print
+    I = 1
+l2200: ' rem DO
+    If I > 8 Then Goto l2390
+    Print I,
+    Flush
+    J = 1
+l2240: ' rem DO
+    If J > 8 Then Goto l2350
+    M = startmem[8 * I + J + 62]
+    If M = 0 Then Print " .",
+    If M = 1 Then Print " K",
+    If M = 2 Then Print " B",
+    If M = 3 Then Print " *",
+    If M = 4 Then Print " E",
+    If (M < 0) Or (M > 4) Then Print " ?",
+    Flush
+    J = J + 1
+    Goto l2240
+l2350: ' rem LOOP
+    Print
+    I = I + 1
+    Goto l2200
+l2390: ' rem LOOP
+    Print "  ",
+    Flush
+    I = 1
+l2420: ' rem DO
+    If I > 8 Then Goto l2470
+    Print I; " ",
+    Flush
+    I = I + 1
+    Goto l2420
+l2470: ' rem LOOP
+    Print
+    Return
+    ' rem
+l2510: ' rem SUBROUTINE phaser
+    J = 4
+    A = 1
+    GoSub l3740
+    If I Then Return
+    Print "energized. Units to fire";;
+    Flush
+    a = getnum()
+    If A >= 1 Then Goto l2610
+    A = 1
+    Return
+l2610: ' rem END IF
+    If A <= E Then Goto l2660
+    Print "Spock: 'We have only", E, "units.'"
+    A = 1
+    Return
+l2660: ' rem END IF
+    E = E - A
+    If N >= 1 Then Goto l2720
+    Print "Phaser fired at empty space."
+    A = 0
+    Return
+l2720: ' rem END IF
+    A = A \ N
+    M = 135
+l2750: ' rem DO
+    If M > 140 Then Goto l2860
+    If startmem[M] Then Goto l2800
+    M = M + 1
+    Goto l2750
+l2800: ' rem END IF
+    GoSub l2900
+    Print S, "units hit",
+    Flush
+    GoSub l3030
+    M = M + 1
+    Goto l2750
+l2860: ' rem LOOP
+    A = 0
+    Return
+    ' rem
+l2900: ' rem SUBROUTINE 295
+    If A <= 1090 Then Goto l2970
+    Print "...overloaded..."
+    J = 4
+    startmem[67] = 1
+    A = 9
+    GoSub l3740
+l2970: ' rem END IF
+    I = startmem[M + 6] - X
+    J = startmem[M + 12] - Y
+    S = (A * 30) \ (30 + I * I + J * J) + 1
+    Return
+    ' rem
+l3030: ' rem SUBROUTINE 305
+    Print "Klingon at s-", startmem[M + 6]; ","; startmem[M + 12],
+        Flush
+    startmem[M] = startmem[M] - S
+    If startmem[M] <= 0 Then Goto l3090
+    Print "**damaged**"
+    Return
+l3090: ' rem END IF
+    startmem[M] = 0
+    I = 8 * U + V - 9
+    J = 0
+    If startmem[I] > 0 Then J = 1
+    If startmem[I] < 0 Then J = -1
+    startmem[I] = startmem[I] - 100 * J
+    K = K - 1
+    I = 8 * startmem[M + 6] + startmem[M + 12] + 62
+    startmem[I] = 0
+    N = N - 1
+    Print "***destroyed***"
+    Return
+    ' rem
+l3230: ' rem SUBROUTINE 325
+    A = 1
+    If N = 0 Then Return
+    Print "Klingon attack"
+    If O = 0 Then Goto l3300
+    Print "Starbase protects Enterprise"
+    Return
+l3300: ' rem END IF
+    T = 0
+    M = 135
+l3330: ' rem DO
+    If M > 140 Then Goto l3470
+    If startmem[M] Then Goto l3380
+    M = M + 1
+    Goto l3330
+l3380: ' rem END IF
+    A = (startmem[M] + CInt(Rnd(startmem[M])) + 1) \ 2
+    GoSub l2900
+    T = T + S
+    I = startmem[M + 6]
+    J = startmem[M + 12]
+    Print S, "units hit from Klingon at s-", I; ","; J
+    M = M + 1
+    Goto l3330
+l3470: ' rem LOOP
+    E = E - T
+    If E > 0 Then Goto l3520
+    Print "*** bang ***"
+    Return
+l3520: ' rem END IF
+    Print E, "units of energy left."
+    If Rnd(E \ 4) + 1 > T Then Return
+    GoSub l3590
+    A = 1
+    Return
+    ' rem
+l3590: ' rem SUBROUTINE 360
+    If startmem[70] Then Goto l3650
+    startmem[70] = Rnd(T \ 50 + 1) + 1
+    J = 7
+    GoSub l3740
+    Return
+l3650: ' rem END IF
+    J = Rnd(6) + 1
+    startmem[J + 63] = Rnd(T \ 99 + 1) + 1 + startmem[J + 63]
+    I = Rnd(8) + 2
+    C = C + I
+    Print "McCoy: 'Sickbay to bridge, we suffered", I, "casualties.'"
+    GoSub l3740
+    Return
+    ' rem
+l3740: ' rem SUBROUTINE 375
+    I = startmem[J + 63]
+    If J = 1 Then Print "Short range sensor",
+    If J = 2 Then Print "Computer display",
+    If J = 3 Then Print "Long range sensor",
+    If J = 4 Then Print "Phaser",
+    If J = 5 Then Print "Warp engine",
+    If J = 6 Then Print "Photon torpedo tubes",
+    If J = 7 Then Print "Shield",
+    Flush
+    If I = 0 Then Return
+    Print "damaged,", I, "stardates estimated for repair"
+    Return
+    ' rem
+l3870: ' rem SUBROUTINE report
+    A = 1
+    Print "Status report:"
+    Print "Stardate", 3230 - D
+    Print "Time left", D
+    Print "Condition     ",
+    Flush
+    If O = 0 Then Goto l3960
+    Print "Docked"
+    Goto l4060
+l3960: ' rem ELSe
+    If N = 0 Then Goto l4000
+    Print "Red"
+    Goto l4060
+l4000: ' rem ELSE
+    If E >= 999 Then Goto l4040
+    Print "Yellow"
+    Goto l4060
+l4040: ' rem ELSE
+    Print "Green"
+l4060: ' rem END IF
+    Print "Position       q-", U; ","; V, " s-", X; ","; Y
+    Print "Energy", E
+    Print "Torpedoes", F
+    Print "Klingons left", K
+    Print "Starbases", B
+    J = 1
+l4130: ' rem DO
+    If J > 7 Then Goto l4180
+    If startmem[J + 63] Then GoSub l3740
+    J = J + 1
+    Goto l4130
+l4180: ' rem LOOP
+    A = 1
+    Return
+    ' rem
+l4220: ' rem SUBROUTINE warp
+    J = 5
+    A = 1
+    GoSub l3740
+    If I = 0 Then Print
+l4270: ' rem DO
+    Print "Sector distance";;
+    Flush
+    w = getnum()
+    A = 1
+    If W < 1 Then Return
+    If I * (IIf(W <= 2, -1, 0) + 1) = 0 Then Goto l4350
+    Print "Chekov: 'We can try 2 at most, sir.'"
+    Goto l4270
+l4350:    ' rem END IF
+l4360:    ' rem LOOP
+    If W <= 91 Then Goto l4400
+    W = 91
+    Print "Spock: 'Are you sure, Captain?'"
+l4400: ' rem END IF
+    If E >= W * (W \ 2) Then Goto l4440
+    Print "Scotty: 'Sir, we do not have the energy.'"
+    Return
+l4440: ' rem END IF
+    GoSub l5950
+    A = 1
+    If R = 0 Then Return
+    D = D - 1
+    E = E - (W * W) \ 2
+    startmem[8 * X + Y + 62] = 0
+    M = 64
+l4520: ' rem DO
+    If M > 70 Then Goto l4570
+    startmem[M] = (startmem[M] - 1) * (IIf(startmem[M] <= 0, -1, 0) + 1)
+    M = M + 1
+    Goto l4520
+l4570: ' rem LOOP
+    P = 45 * X + 22
+    G = 45 * Y + 22
+    W = 45 * W
+    M = 1
+l4620: ' rem DO
+    If M > 8 Then Goto l4810
+    W = W - R
+    If W >= -22 Then Goto l4700
+    startmem[8 * X + Y + 62] = 4
+    A = 0
+    GoSub l1330
+    Return
+l4700: ' rem END IF
+    P = P + S
+    G = G + T
+    I = P \ 45
+    J = G \ 45
+    If (I < 1) Or (I > 8) Or (J < 1) Or (J > 8) Then Goto l4810
+    If startmem[8 * I + J + 62] Then Goto l4810
+    X = I
+    Y = J
+    M = M + 1
+    Goto l4620
+l4810: ' rem LOOP
+    If startmem[8 * I + J + 62] = 0 Then Goto l4890
+    Print "**Emergency stop**"
+    Print "Spock: 'To err is human.'"
+    startmem[8 * X + Y + 62] = 4
+    GoSub l1330
+    A = 0
+    Return
+l4890: ' rem END IF
+    P = U * 72 + (P \ 5) + ((W \ 5) * S) \ R - 9
+    U = P \ 72
+    G = V * 72 + G \ 5 + ((W \ 5) * T) \ R - 9
+    V = G \ 72
+    If Rnd(9) + 1 >= 2 Then Goto l4980
+    Print "***Space storm***"
+    T = 100
+    GoSub l3590
+l4980:    ' rem END IF
+    If (U < 1) Or (U > 8) Or (V < 1) Or (V > 8) Then Goto l5050
+    X = (P + 9 - 72 * U) \ 9
+    Y = (G + 9 - 72 * V) \ 9
+    GoSub l6340
+    A = 1
+    Return
+l5050:    ' rem END IF
+    Print "**You wandered outside the galaxy**"
+    Print "On board computer takes over, and saved your life"
+    GoSub l6270
+    GoSub l6340
+    A = 1
+    Return
+    ' rem
+l5130: ' rem SUBROUTINE torpedo
+    J = 6
+    A = 1
+    GoSub l3740
+    If I Then Return
+    If F Then Goto l5210
+    Print "empty"
+    Return
+l5210: ' rem END IF
+    Print "loaded"
+    GoSub l5950
+    If R = 0 Then Return
+    Print "Torpedo track",
+    Flush
+    F = F - 1
+    P = 45 * X + 22
+    G = 45 * Y + 22
+    M = 1
+l5300: ' rem DO
+    If M > 8 Then Goto l5900  ' rem check if hit or missed
+    P = P + S
+    G = G + T
+    I = P \ 45
+    J = G \ 45
+    If (I < 1) Or (I > 8) Or (J < 1) Or (J > 8) Then Goto l5900  ' rem check if hit or missed
+    L = 8 * I + J + 62
+    W = 8 * U + V - 9
+    R = 0
+    If startmem[W] > 0 Then R = 1
+    If startmem[W] < 0 Then R = -1
+    Print I; ","; J, " ",
+    Flush
+    A = 0
+    If startmem[L] <> 0 Then Goto l5470
+    M = M + 1
+    Goto l5300
+l5470: ' rem END IF
+    If startmem[L] <> 1 Then Goto l5590
+    S = Rnd(99) + 1 + 280
+    M = 135
+l5510: ' rem DO
+    If M > 140 Then Goto l5560
+    If (startmem[M + 6] = I) And (startmem[M + 12] = J) Then GoSub l3030
+    M = M + 1
+    Goto l5510
+l5560: ' rem LOOP
+    A = 0
+    Return
+l5590: ' rem END IF
+    If startmem[L] <> 2 Then Goto l5680
+    B = B - 1
+    startmem[L] = 0
+    startmem[W] = startmem[W] - 10 * R
+    Print "Starbase destroyed"
+    Print "Spock: 'I often find human behaviour fascinating.'"
+    Return
+    A = 0
+l5680: ' rem END IF
+    If startmem[L] <> 3 Then Goto l5880
+    Print "Hit a star"
+    If Rnd(9) + 1 >= 3 Then Goto l5750
+    Print "Torpedo absorbed"
+    A = 0
+    Return
+l5750: ' rem END IF
+    startmem[L] = 0
+    startmem[W] = startmem[W] - R
+    If Rnd(9) + 1 >= 6 Then Goto l5820
+    Print "Star destroyed"
+    A = 0
+    Return
+l5820: ' rem END IF
+    T = 300
+    Print "It novas ***radiation alarm***"
+    GoSub l3590
+    A = 0
+    Return
+l5880: ' rem END IF
+    Goto l5300
+l5900: ' rem LOOP
+    Print "...missed"
+    A = 0
+    Return
+    ' rem
+l5950: ' rem SUBRROUTINE 615
+    Print "Course (0-360)";;
+    Flush
+    i = getnum()
+    If (I <= 360) Or (I >= 0) Then Goto l6010
+    R = 0
+    Return
+l6010: ' rem END IF
+    S = (I + 45) \ 90
+    I = I - S * 90
+    R = (45 + I * I) \ 110 + 45
+    If S > 3 Then S = 0
+    If S <> 0 Then Goto l6100
+    S = -45
+    T = I
+    Return
+l6100: ' rem END IF
+    If S <> 1 Then Goto l6150
+    S = I
+    T = 45
+    Return
+l6150: ' rem END IF
+    If S <> 2 Then Goto l6200
+    S = 45
+    T = -I
+    Return
+l6200: ' rem END IF
+    If S <> 3 Then Goto l6250
+    S = -I
+    T = -45
+    Return
+l6250: ' rem END IF
+    ' rem
+l6270: ' rem SUBROUTINE 40
+    U = Rnd(8) + 1
+    V = Rnd(8) + 1
+    X = Rnd(8) + 1
+    Y = Rnd(8) + 1
+    Return
+    ' rem
+l6340: ' rem SUBROUTINE 45
+    I = 71
+l6360:    ' rem DO
+    If I > 152 Then Goto l6410
+    startmem[I] = 0
+    I = I + 1
+    Goto l6360
+l6410: ' rem LOOP
+    startmem[8 * X + Y + 62] = 4
+    M = startmem[8 * U + V - 9]
+    If M < 0 Then M = -M
+    N = M \ 100
+    I = 1
+    If N = 0 Then Goto l6580
+    J = 1
+l6490: ' rem DO
+    If J > N Then Goto l6570
+    GoSub l1230
+    startmem[J + 134] = 300
+    startmem[J + 140] = S
+    startmem[J + 146] = T
+    J = J + 1
+    Goto l6490
+l6570: ' rem LOOP
+l6580: ' rem END IF
+    GoSub l1330
+    M = M - 100 * N
+    I = 2
+    If M \ 10 Then GoSub l1230
+    M = M - (M \ 10) * 10
+    I = 3
+    If M = 0 Then Goto l6730
+    J = 1
+l6670: ' rem DO
+    If J > M Then Goto l6720
+    GoSub l1230
+    J = J + 1
+    Goto l6670
+l6720: ' rem LOOP
+l6730: ' rem END IF
+    A = 1
+    Return
+    ' rem
+l6770:  ' rem SUBROUTINE input 6770
+l6780:  ' rem DO
+    A = getch()
+    ' rem NAP 10
+    If A = -1 Then Goto l6780
+    ' rem LOOP
+    Print
+    Return
+
+End
+
+Sub getch() As Integer
+
+    Dim inbuffer As String
+    Dim inbyte As Integer
+
+    Line Input inbuffer
+    inbyte = Asc(inbuffer)
+    Return inbyte
+
+End
+
+Sub getnum() As Integer
+
+    Dim inbuffer As String
+    Dim result As Integer
+
+    Line Input inbuffer
+    Try result = CInt(inbuffer)
+    If Error Then result = -1
+    Return result
+
+End
