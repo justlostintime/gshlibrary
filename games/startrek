@@ -1,10 +1,12 @@
+'#!gshp
 ' Gambas Shell script
 'noalias
 'nopreprocess
 
 Public Sub startrek()
 
-    Dim a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z As Integer
+    Dim a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r as integer
+    Dim s, t, u, v, w, x, y, z As Integer
     Dim startmem As New Integer[70000]
 
 l10: ' rem DO
@@ -96,8 +98,7 @@ l770: ' rem LOOP
     If A = 121 Then Goto l10
     ' rem LOOP
     Print "Good bye."
-
-    Quit
+    return             ' script must return, as quit exits the shell!
     ' rem
 
 l870: ' rem SUBROUTINE 145
