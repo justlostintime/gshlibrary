@@ -1,0 +1,27 @@
+#!/usr/bin/gbs3
+' Gambas Script File Created 04/16/2019 07:00:00
+
+Dim Mlist, ilist As String
+ 
+print "System Information"
+Mlist = "Gambas version=" & trim(System.FullVersion) & "\n"
+Mlist &= "Home Directory=" &trim( Application.Env["HOME"]) & "\n" 
+Mlist &= "Env Vars =" & Application.Env.Count & "\n"
+Mlist &= "Time Zone =" & System.TimeZone & "\n"
+Mlist &= "User Logged in =" & System.User.name & "\n"
+Mlist &= "Host/Domain Name=" & System.Host & "/" & System.Domain & "\n"
+Mlist &= "Comp Architecture=" & System.Architecture & "/" & System.Family & "\n"
+Shell "ip address | grep inet" To ilist
+Mlist &= "Network Info\n    " & trim(ilist)
+Shell "cat /etc/resolv.conf | grep name" To ilist
+Mlist &= "DNS Server=" & trim(ilist) & "\n"
+Shell "ip route | grep default" To ilist
+Mlist &= "Gateway=" & trim(ilist) & "\n"
+Shell "cat /etc/os-release" To ilist
+Mlist &= "OS Release=" & trim(mid(ilist,instr(ilist,"="))) & "\n"
+print mlist
+print "Memory Usage"
+shell  "free -h -w"
+Quit 0
+Catch
+

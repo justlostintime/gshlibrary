@@ -1,0 +1,79 @@
+#!/usr/bin/env gbs3
+' Gambas Script File Created 11/30/2022 17:09:34.817
+
+class xyz
+
+Static Public Sub _call(regionid As String, ...)
+
+    On param.count Goto sublabel1, sublabelerr, sublabel2, sublabelerr, sublabel4 ' 1 parm, 2 parms, 3 params 4 params
+
+    Dim a As Integer
+    Dim b As String
+    Dim offset As Integer = 0
+    Dim OutputLine As String = ""
+
+SubLabel1:
+    GoSub sublabel11
+    Print "editVariety" & Outputline
+
+sublabel11:  ' one parameter
+    OutputLine = " -r " & regionID
+    'do stuff here
+    Return
+
+Sublabel2:  ' three parameters
+    GoSub SubLabel11
+
+    If Not (TypeOf(param[0]) = gb.boolean) Then
+        GoSub SubLabel22
+    Else
+        GoSub Sublabel21
+    Endif
+    Print "editVariety " & outputLine
+    Return
+
+Sublabel21: ' First parm was boolean
+    ' Print "optional Parm set with boolean as first and ";; param.count;; "params Values =";; param[0];; ",";; param[1];;
+    OutputLine &= " -v " & Str(param[0]) & " -Y " & Str(Param[1])
+    ' do stuff here
+    Return
+
+SubLabel22: ' First param was not boolean
+    'If Param.count = 2 Then Print "optional Parm set not boolean as first and ";; param.count;; "params Values =";; Else Print ",";;
+    'Print param[0 + offset];; ",";; param[1 + offset]
+    outputline &= " -u " & Str(Param[0 + offset]) & " -q " & Str(Param[1 + offset])
+    ' do stuff here
+    Return
+
+SublabelErr: ' Invalid parm count
+    Print
+    error.raise("Error : Not enough parameters (" & Str(Param.count) & ")")
+
+Sublabel4:
+    'Print "Recieved 4 parameters"
+    offset = 2
+    GoSub sublabel11
+    GoSub sublabel21
+    GoSub sublabel22
+    Print "editVariety" & OutPutline
+
+End
+end class
+
+
+    xyz("Sacramento")
+    Try xyz("Boston", True)
+    If Error Then Print "Error", "Boston";; Error.text
+    xyz("Boston", True, "1987")
+    Try xyz("Washinton", "Badcnt")
+    If Error Then Print "Error", "Washinton";; Error.text
+    xyz("Washinton", "Arg3", "Arg4")
+    Try xyz("Daton", True, "2007", "arg3")
+    If Error Then Print "Error", "Daton";; Error.text
+    xyz("Daton", True, "2008", "arg3", "arg4")
+
+
+
+QUIT 0
+catch
+Print error.text&"\n" & error.where

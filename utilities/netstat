@@ -1,0 +1,62 @@
+#!/usr/bin/gbs3
+' Gambas Script File Created 08/20/2020 15:58:02.65
+
+#Script Title="Network Status"
+
+Public netstat As New Collection(gb.IgnoreCase)
+Public devstat As New Collection(gb.IgnoreCase)
+
+Sub putnetstat(headers As String[], dataval As String[])
+   For i As Integer = 1 To headers.max
+     netstat.add(dataval[i], headers[0] & ":" & headers[i])
+  Next
+End
+
+Public Sub Main()
+
+Dim DevStats As String[] = Split(File.Load("/proc/net/dev"), "\n", "", True)
+Dim indata As String[] = Split(file.load("/proc/net/netstat"), "\n", "", True)
+Dim headers As String[]
+Dim hdata As String[]
+netstat.clear()
+devstat.clear()
+
+For i As Integer = 0 To indata.max Step 2
+		headers = Split(indata[i], ": ", "", True)
+		hdata = Split(indata[i + 1], ": ", "", True)
+		putnetstat(headers, hdata)
+Next
+
+For Each s As String In netstat
+  Print netstat.key;; "=";; s
+Next
+
+Dim devheaders As String[] = Split(DevStats[1], "|", "", True)
+Dim rxheaders As String[] = Split(devheaders[1], " ", "", True)
+Dim txHeaders As String[] = Split(devheaders[2], " ", "", True)
+
+For i = 2 To DevStats.max
+ Dim ldata As String[] = Split(DevStats[i], ": ", "", True)
+ Dim ifaceInfo As New Collection(gb.IgnoreCase)
+ Dim iFaceName As String = ldata.extract(0)[0]
+ 
+ For Each val As String In rxHeaders
+   iFaceInfo.add(ldata.extract(0)[0], "RX." & val)
+ Next
+ 
+ For Each val As String In txHeaders
+   iFaceInfo.add(ldata.extract(0)[0], "TX." & val)
+ Next
+ 
+ devstat.add(iFaceInfo, iFaceName)
+Next
+
+For Each ifstats As Collection In devstat
+	Print Subst("&1 &2 MBs &3 MBs", Mid(devstat.key & Space(20), 1, 20), Format((ifStats["tx.bytes"] / 1024 / 1024), "#######.00"), Format((ifStats["rx.bytes"] / 1024 / 1024), "#######.00"))
+Next
+
+Quit 0
+Catch
+Print error.text & "\n" & error.where
+
+End
