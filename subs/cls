@@ -1,0 +1,5 @@
+'nopreprocess
+public sub cls()
+   print "\e[H\ec";
+   flush
+end

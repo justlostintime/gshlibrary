@@ -26,7 +26,7 @@ Public Sub Main()
     Dim source As String = env["gshproject"]
     Dim dest As String = env["gshlibrary"]
     Dim FileText As String
-    Dim directories As String[] = ["subs", "class", "struct", "examples", "doc", "editors", "profiles"]
+    Dim directories As String[] = ["subs", "class", "struct", "examples", "doc", "editors", "profiles","scripts"]
 
     Print "GSH_synclib : ";; Quote(source);; "to";; Quote(dest)
 
