@@ -1,5 +1,3 @@
-#!/usr/bin/env gbs3
-'
 ' Gsh Library content builder
 ' This builds the content file for online gsh script repositories
 '
@@ -21,8 +19,9 @@
 ' Boston, MA  02110-1301  USA
 '
 
-Public Sub Main()
+Public Sub gshmakecontent()
 
+    use ""
     Dim execOutput As String
     Dim BaseDir As String = Application.dir
     Dim ContentFile As String = BaseDir &/ "content"
@@ -75,7 +74,5 @@ Public Sub Main()
     Next
 
     File.Save(ContentFile, outContent.join("\n"))
-
-    Quit 0
 
 End

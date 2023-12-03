@@ -1,0 +1,19 @@
+Class gsh
+public sub setsync(VarName as string, EnvEntryName as string) ' Sync an environment entry with the gsh variable value
+'' SetSync(Variable, EnvEntryName)
+'' Syncronize the value of a gsh variable with an entry in the environment variable list
+
+   if not sharedmem.exist(VarName) then
+          if isnull(application.env[EnvEntryName]) then
+              error "creating new env variable"
+              application.env[EnvEntryName] = ""
+          endif
+          sharedmem[Varname]= env[EnvEntryName]
+   else
+          env[EnvEntryName] =  sharedmem[Varname]
+   endif
+
+   if not gsh.EnvSync.Add(VarName,envEntryName) then
+     error.raise("SetSync Binding failed between "&varname&" and "& EnvEntryName)
+   endif
+end
