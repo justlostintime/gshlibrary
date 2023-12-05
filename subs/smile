@@ -1,0 +1,20 @@
+sub smile() ' fun app to print a smile
+'' print a smile!
+print "Its is always a good day to smile"
+print "      ********************     "
+print "     *                    *    "
+print "    *  -----        -----  *   "
+print "   |     @            @     |  "
+print "    \\                       /  "
+print "     *          $          *   "
+print "     *                     *   "
+print "      \\                   /    "
+print "       \\    \\       /    /     "
+print "        \\     *___*     /      "
+print "         *      *      *       "
+print "           *         *         "
+print "             *  _  *           "
+if system.exist("cowsay") then
+ cowsay smile
+endif
+end
